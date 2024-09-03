@@ -13,6 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: fetch-languages
         run: |
+          mkdir data &>/dev/null || :
           yq -o=json 'to_entries
             | map(select(.value.color))
             | map({(.key): .value.color})' < \
