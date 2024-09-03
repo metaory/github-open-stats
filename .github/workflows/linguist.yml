@@ -30,7 +30,7 @@ jobs:
         run: |
           git add .
           git commit --all --amend --no-edit || true
-          git push
+          git push -u origin master
           echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
 
