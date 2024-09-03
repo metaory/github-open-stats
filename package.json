@@ -1,0 +1,23 @@
+{
+  "name": "github-open-stats",
+  "description": "GitHub Stats on Edge 🚧 Early greenfield experiment 🚧 -- Hono on Cloudflare Workers 🧬",
+  "sideEffects": false,
+  "bugs": "https://github.com/metaory/github-open-stats/issues",
+  "homepage": "https://github.com/metaory/github-open-stats#readme",
+  "repository": "git+https://github.com/metaory/github-open-stats.git",
+  "author": "metaory <metaory@gmail.com>",
+  "scripts": {
+    "dev": "wrangler dev src/index.js",
+    "test:linguist": "act -s GITHUB_TOKEN=$(gh auth token) workflow_dispatch",
+    "deploy": "wrangler deploy --minify src/index.js",
+    "build": "npm run deploy"
+  },
+  "dependencies": {
+    "hono": "4.x"
+  },
+  "devDependencies": {
+    "wrangler": "3.x"
+  },
+  "version": "0.0.1",
+  "license": "MIT"
+}

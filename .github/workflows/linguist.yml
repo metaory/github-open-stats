@@ -1,0 +1,47 @@
+name: Cache Languages
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+jobs:
+  setup:
+    name: Cache Langs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: fetch-languages
+        run: |
+          yq -o=json 'to_entries
+            | map(select(.value.color))
+            | map({(.key): .value.color})' < \
+            <(curl -L https://github.com/github-linguist/linguist/raw/master/lib/linguist/languages.yml) \
+            | jq 'add' >languages.json
+      - name: Setup Git User
+        run: |
+          git config --global user.email "bot@github.com"
+          git config --global user.name "bot"
+      - name: Commit
+        id: commit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git add .
+          git commit --all --amend --no-edit || true
+          git push --force-with-lease
+          echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+
+          # - name: Dummy Sc1
+          #   run: ./.github/scripts/linguist.sh
+          # - name: BYEEy
+          #   run: |
+          #     echo ZZzz
+          #     echo byzz
+          # - run: |-
+          #     git diff
+          #     git config --global user.email "bot@github.com"
+          #     git config --global user.name "bot"
+          #     git diff --quiet || (git add . && git commit -m "Update files")
+          #     git push
