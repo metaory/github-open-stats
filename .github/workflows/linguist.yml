@@ -17,7 +17,7 @@ jobs:
             | map(select(.value.color))
             | map({(.key): .value.color})' < \
             <(curl -L https://github.com/github-linguist/linguist/raw/master/lib/linguist/languages.yml) \
-            | jq 'add' >languages.json
+            | jq 'add' >data/languages.json
       - name: Setup Git User
         run: |
           git config --global user.email "bot@github.com"
@@ -29,7 +29,7 @@ jobs:
         run: |
           git add .
           git commit --all --amend --no-edit || true
-          git push --force-with-lease
+          git push
           echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
 
