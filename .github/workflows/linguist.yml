@@ -17,7 +17,7 @@ jobs:
           yq -o=json 'to_entries
             | map(select(.value.color))
             | map({(.key): .value.color})' < \
-            <(curl -L https://github.com/github-linguist/linguist/raw/master/lib/linguist/languages.yml) \
+            <(curl -L https://github.com/github-linguist/linguist/raw/main/lib/linguist/languages.yml) \
             | jq 'add' >data/languages.json
       - name: Commit
         id: commit
